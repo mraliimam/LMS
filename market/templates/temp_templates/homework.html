@@ -1,0 +1,208 @@
+<!doctype html>
+  <html>
+      <head>
+          <meta charset='utf-8'>
+          <meta name='viewport' content='width=device-width, initial-scale=1'>
+          <title>Homework LMS</title>
+          <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css' rel='stylesheet'>
+          <link href='https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css' rel='stylesheet'>
+          <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+          <link rel="stylesheet" href="../../static/styles.css">
+          </head>
+    <body id="body-pd" class='snippet-body'>      
+      <header class="header" id="header">        
+          <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle" style="color: white;"></i> </div>
+          <div><h3>moodle</h3></div>
+          <!-- <div class="header_img"> <img src="https://i.imgur.com/hczKIze.jpg" alt=""> </div> -->
+      </header>
+      <div class="l-navbar" id="nav-bar">
+          <nav class="nav">
+              <div> <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_logo-name">School Name</span> </a>
+                  <div class="nav_list">
+                     <a href="#" class="nav_link active"> 
+                      <i class='bx bx-grid-alt nav_icon'></i>
+                      <span class="nav_name">Dashboard</span>
+                     </a> 
+                     <a href="#" class="nav_link"> 
+                      <i class='bx bx-user nav_icon'></i> 
+                      <span class="nav_name">Students</span> 
+                    </a> 
+                    <a href="#" class="nav_link"> 
+                      <i class='bx bx-message-square-detail nav_icon'></i>
+                      <span class="nav_name">Tickets</span> 
+                    </a>                     
+                    <a href="#" class="nav_link"> 
+                      <i class='bx bx-folder nav_icon'></i> 
+                      <span class="nav_name">Courses</span> 
+                    </a>                     
+                  </div>
+                </div> 
+                    <a href="#" class="nav_link"> 
+                      <i class='bx bx-log-out nav_icon'></i> 
+                      <span class="nav_name">SignOut</span> 
+                    </a>
+          </nav>
+      </div>
+      <!--Container Main start-->
+      <br>
+      <br>
+      <!-- <div class="container-fluid secs" style="background-color: white; padding-right: 3rem; margin-bottom: 80px;"> -->
+          
+        <!-- <h4>Main Components</h4> -->      
+        
+          <!-- <h5><strong>Student Details:</strong></h5>    -->
+          <div class="container">
+            <h4><strong>Student</strong></h4>
+          <br>
+            <div class="row">
+                <div class="col-md-2">
+                  <img 
+                    class="rounded"   
+                    style="width: 3cm; height: 3cm;"                  
+                    src="D:\Certificates\311634997_2263958727119242_3693184681886268816_n.jpg" 
+                    alt="profile-img">
+                </div>                
+
+                    <div class="col-md-2" style="vertical-align: middle;">
+                      <h6>First Name:</h6>
+                      <input class="form-control" type="text" value="Ali" readonly>
+                  </div>
+                  <div class="col-md-2" style="vertical-align: middle;">
+                    <h6>Last Name:</h6>
+                    <input class="form-control" type="text" value="Imam" readonly>
+                  </div>                  
+                  </div>                         
+                                            
+<br>
+            <br>
+            <h5><strong>Pending Homework:</strong></h5> <br>  
+            <div class="container">
+                <div style="padding: 1rem; display: flex; justify-content: center;">
+                    <table class="table table-primary table-bordered table-striped" style="width: 50rem;">
+                      <thead>
+                        <th>Sr No:</th>
+                        <th>Course</th>
+                        <th>Start Date</th>
+                        <th>Last Date</th>
+                        <th colspan="2">Actions</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>01</td>
+                          <td>Quran - 1</td>
+                          <td>20-April-2023</td>                          
+                          <td>24-April-2023</td>
+                          <td>
+                            <div class="row">
+                                <div class="col"style = "text-align: center; width: 200px; display: inline-block;">
+                                    <input class="form-control-sm" type="file">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-success btn-sm">Upload</button>
+                                </div>
+                            </div>                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>Arabic - 1</td>
+                            <td>20-April-2023</td>                          
+                            <td>24-April-2023</td>
+                            <td>
+                              <div class="row">
+                                  <div class="col"style = "text-align: center; width: 200px; display: inline-block;">
+                                      <input class="form-control-sm" type="file">
+                                  </div>
+                                  <div class="col">
+                                      <button class="btn btn-success btn-sm">Upload</button>
+                                  </div>
+                              </div>                            
+                              </td>
+                          </tr>
+                          <tr>
+                            <td>03</td>
+                            <td>Islamic Studies</td>
+                            <td>20-April-2023</td>                          
+                            <td>24-April-2023</td>
+                            <td>
+                              <div class="row">
+                                  <div class="col"style = "text-align: center; width: 200px; display: inline-block;">
+                                      <input class="form-control-sm" type="file">
+                                  </div>
+                                  <div class="col">
+                                      <button class="btn btn-success btn-sm">Upload</button>
+                                  </div>
+                              </div>                            
+                              </td>
+                          </tr>                        
+                      </tbody>
+                    </table>
+                  </div>
+            </div>
+            <br>
+            <br>              
+      <!--Container Main end-->
+      <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js'></script>
+      <script type='text/javascript' src='#'></script>
+      <script type='text/javascript' src='#'></script>
+      <script type='text/javascript'>
+        let eyeIcon = document.querySelector('.eye-icon');
+        let passwordField = document.querySelector('#password');
+        eyeIcon.addEventListener('click', function () {
+        let type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
+        });
+      </script>
+      <script type='text/javascript'>
+      document.addEventListener("DOMContentLoaded", function(event) {
+    
+        const showNavbar = (toggleId, navId, bodyId, headerId) =>{
+        const toggle = document.getElementById(toggleId),
+        nav = document.getElementById(navId),
+        bodypd = document.getElementById(bodyId),
+        headerpd = document.getElementById(headerId)
+
+        // Validate that all variables exist
+        if(toggle && nav && bodypd && headerpd){
+        toggle.addEventListener('click', ()=>{
+        // show navbar
+        nav.classList.toggle('show')
+        // change icon
+        toggle.classList.toggle('bx-x')
+        // add padding to body
+        bodypd.classList.toggle('body-pd')
+        // add padding to header
+        headerpd.classList.toggle('body-pd')
+        })
+        }
+        }
+
+        showNavbar('header-toggle','nav-bar','body-pd','header')
+
+        /*===== LINK ACTIVE =====*/
+        const linkColor = document.querySelectorAll('.nav_link')
+
+        function colorLink(){
+        if(linkColor){
+        linkColor.forEach(l=> l.classList.remove('active'))
+        this.classList.add('active')
+        }
+        }
+        linkColor.forEach(l=> l.addEventListener('click', colorLink))
+
+        // Your code to run since DOM is loaded and ready
+        });
+      </script>
+      <script type='text/javascript'>var myLink = document.querySelector('a[href="#"]');
+        myLink.addEventListener('click', function(e) {
+          e.preventDefault();
+        });
+      </script>
+    </body>    
+    <footer id="footer">
+      <a href="https:/www.maaqservices.com" target="_blank" class="text-white">
+        <p>© Powered by Maaq Services</p>
+      </a>
+    </footer>
+  </html>
