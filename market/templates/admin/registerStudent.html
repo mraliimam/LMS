@@ -1,0 +1,196 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}
+    Student Form
+{% endblock %}
+
+{% block child %}
+<div style="text-align: center; color: white;">
+    <h2><strong>PROFILE</strong></h2>
+  </div>  
+      <br>
+      <form action="" method="post" enctype="multipart/form-data">
+      <h5><strong>Student Details:</strong></h5>   
+      <div class="container">
+        <div class="row">
+            <div class="col-md-4">                
+                {{ form.familyID.label() }}*
+                {{ form.familyID(class = 'form-control', placeholder = 'Family ID') }}                
+            </div>
+            <div class="col-md-4">
+                {{ form.sID.label() }}*
+                {{ form.sID(class = 'form-control', placeholder = 'Student ID') }}
+            </div>
+        </div>
+        <div class="row">
+            {% if image != None %}
+            <div class="col-md-2" style="display: flex; justify-content: flex-end; flex-direction: column;">              
+                    <img 
+                    class="rounded"   
+                    style="width: 5cm; height: 5cm; vertical-align: bottom;"                  
+                    src="data:image/jpeg;base64,{{ image }}"
+                    alt="profile-img">
+                {% else %}
+                <div class="col-md-2 clt" style="vertical-align: middle;">
+                    <h6>Student Profile Image*</h6>
+                    <input type="file" name="file" id="file" class="form-control">
+                {% endif %}
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9" style="vertical-align: middle;">
+              <div class="row">
+                <!-- <div class="col-md-1"></div> -->
+                <div class="col-md-3 clt" style="vertical-align: middle;">                
+                  {{ form.sFirstName.label()  }}*
+                  {{ form.sFirstName(class = 'form-control', placeholder = 'First Name')  }}
+              </div>
+              <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.sMiddleName.label()  }}*
+                    {{ form.sMiddleName(class = 'form-control', placeholder = 'Middle Name')  }}
+              </div>
+              <div class="col-md-3 clt" style="vertical-align: middle;">
+                {{ form.sLastName.label()  }}*
+                {{ form.sLastName(class = 'form-control', placeholder = 'Last Name')  }}            
+            </div>
+            <div class="col-md-2 clt" style="vertical-align: middle;">
+                {{ form.gender.label()  }}*
+                {{ form.gender(class = 'form-control', placeholder = 'Gender')  }}
+            </div>
+              </div>         
+              <div class="row">                
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.dob.label()  }}*
+                    {{ form.dob(class = 'form-control', placeholder = 'Date of Birth')  }}
+                </div>
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.sEmail.label()  }}
+                    {{ form.sEmail(class = 'form-control', placeholder = 'Email Address')  }}
+                </div>
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.sCell_No.label()  }}
+                    {{ form.sCell_No(class = 'form-control', placeholder = 'Phone No')  }}                  
+                </div>
+              </div>         
+            </div>
+                            
+        </div>         
+      </div>     
+<br>
+        <br>
+        <h5><strong>Father Details:</strong></h5> <br>  
+        <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {{ form.fatherFirstName.label()  }}*
+                  {{ form.fatherFirstName(class = 'form-control', placeholder = 'First Name')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.fatherMiddleName.label()  }}*
+                {{ form.fatherMiddleName(class = 'form-control', placeholder = 'Middle Name')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.fatherLastName.label()  }}*
+                {{ form.fatherLastName(class = 'form-control', placeholder = 'Last Name')  }}
+            </div>        
+        </div>
+        <br> 
+        <div class="row">
+            <div class="col-md-3">
+                {{ form.fDob.label()  }}
+                {{ form.fDob(class = 'form-control', placeholder = 'Date of Birth')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.FEmail.label()  }}
+                {{ form.FEmail(class = 'form-control', placeholder = 'Email Address')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.FCell_No.label()  }}
+                {{ form.FCell_No(class = 'form-control', placeholder = 'Phone No')  }}
+            </div>    
+        </div>
+      </div>
+        <br>
+        <br>
+        <h5><strong>Mother Details:</strong></h5> <br>  
+        <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {{ form.motherFirstName.label()  }}*
+                  {{ form.motherFirstName(class = 'form-control', placeholder = 'First Name')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.motherMiddleName.label()  }}*
+                {{ form.motherMiddleName(class = 'form-control', placeholder = 'Middle Name')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.motherLastName.label()  }}*
+                {{ form.motherLastName(class = 'form-control', placeholder = 'Last Name')  }}
+            </div>      
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3">
+                {{ form.mDob.label()  }}
+                {{ form.mDob(class = 'form-control', placeholder = 'Date of Birth')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.MEmail.label()  }}
+                {{ form.MEmail(class = 'form-control', placeholder = 'Email Address')  }}
+            </div><br>
+            <div class="col-md-3">
+                {{ form.MCell_No.label()  }}
+                {{ form.MCell_No(class = 'form-control', placeholder = 'Phone No')  }}
+            </div>    
+        </div> 
+      </div>
+                
+        <br>
+        <br>
+        <h5><strong>Address:</strong></h5> <br> 
+        <div class="container">
+        <div class="row">
+        <div class="col-md-5">
+            {{ form.addressLine1.label() }}
+            {{ form.addressLine1(class = 'form-control', placeholder = 'Address Line 2') }}            
+        </div>            <br>
+
+        <div class="col-md-5">
+            {{ form.addressLine2.label() }}
+            {{ form.addressLine2(class = 'form-control', placeholder = 'Address Line 2') }}
+        </div>
+        </div>
+        <br>
+        <div class="row">
+        <div class="col-md-3">
+            {{ form.city.label() }}
+            {{ form.city(class = 'form-control', placeholder = 'City') }}
+        </div>
+        <div class="col-md-3">
+            {{ form.state.label() }}
+            {{ form.state(class = 'form-control', placeholder = 'State') }}
+        </div>
+        <div class="col-md-3">
+            {{ form.zipCode.label() }}
+            {{ form.zipCode(class = 'form-control', placeholder = 'Zip Code') }}
+        </div>
+      </div>
+    </div>
+<br>
+<br>
+{% if not image %}
+    {{ form.submit(class = 'btn btn-success', placeholder = 'Submit') }}
+{%endif%}
+</form>
+
+<script>
+    // Get a reference to the SelectField
+    var selectField = document.getElementById("{{ form.familyID.id }}");    
+  
+    // Attach an event listener to the SelectField that submits the form when changed
+    selectField.addEventListener("change", function() {
+      document.getElementById("{{ form.submit.id }}").click();
+        console.log('Working');
+    //   document.getElementById("#fam").submit();
+    });
+  </script>
+{% endblock %}

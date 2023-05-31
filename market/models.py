@@ -7,110 +7,108 @@ from datetime import datetime, date
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# class User(db.Model, UserMixin):
-#     id = db.Column(db.Integer(), primary_key=True)
-#     username = db.Column(db.String(length=30), nullable=False, unique=True)
-#     email = db.Column(db.String(length=50), nullable=False, unique=True)
-#     password_hash = db.Column(db.String(length=60), nullable=False)
-#     budget = db.Column(db.Integer(), nullable=False, default=1000)
-#     items = db.relationship('Item', backref='owned_user', lazy=True)
-
-#     @property
-#     def password(self):
-#         return self.password
-
-#     @password.setter
-#     def password(self, plain_text_password):
-#         self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
-
-#     def check_password_correction(self, attempted_password):
-#         return bcrypt.check_password_hash(self.password_hash, attempted_password)
-
-class House(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    Name = db.Column(db.String(), nullable = False)
-    Kitchen = db.Column(db.String(), db.ForeignKey('kitchen.Name'))
-    kn = db.relationship('Kitchen')
-
-class Kitchen(db.Model):
-    Name = db.Column(db.String(), primary_key = True)
-
-class Kitchen_Cart(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    Kitchen = db.Column(db.String(), db.ForeignKey('kitchen.Name'))
-    kn = db.relationship('Kitchen')
-    Cart = db.Column(db.String(), db.ForeignKey('cart.Order_No'))
-    ct = db.relationship('Cart')
-    Food = db.Column(db.String(), db.ForeignKey('food.id'))
-    fd = db.relationship('Food')
-    Status = db.Column(db.String(), nullable = False)
-
-class Tables(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    Name = db.Column(db.String(), nullable = False)
-    House = db.Column(db.String(), db.ForeignKey('house.Name'))
-    hs = db.relationship('House')
-    Status = db.Column(db.Boolean(), nullable = False, default = False)
-
-
-class Member(db.Model):
-    id = db.Column(db.String(), primary_key = True)
-    Name = db.Column(db.String(), nullable = False)
-    Type = db.Column(db.String(), nullable = False)
-    Credit = db.Column(db.Integer(), nullable = False, default = 0)
-    Phone = db.Column(db.String(), nullable = False)
-
-
-class Food(db.Model):
-    id = db.Column(db.Integer(), primary_key= True)
-    Name = db.Column(db.String(), nullable = False)
-    Making_Price = db.Column(db.Integer(), nullable = False)
-    Sale_Price = db.Column(db.Integer(), nullable = False)
-    Category = db.Column(db.String(), nullable = False)
-    # House = db.Column(db.String(), db.ForeignKey('house.Name'))
-    # sec = db.relationship('House')
-
-class House_Food(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    Category = db.Column(db.String(), db.ForeignKey('food.Category'))
-    fd = db.relationship('Food')
-    House = db.Column(db.String(), db.ForeignKey('house.Name'))
-    hs = db.relationship('House')
-    
-
-class Cart(db.Model):
-    Order_No = db.Column(db.String(), primary_key = True)
-    Table = db.Column(db.String(), db.ForeignKey('tables.Name'))
-    tbl = db.relationship('Tables')
-    House = db.Column(db.String(), db.ForeignKey('house.Name'))
-    hse = db.relationship('House')
-    Persons = db.Column(db.Integer(), nullable = False, default = 1)
-    OrderType = db.Column(db.String(), nullable = False)
-    Member = db.Column(db.String(), db.ForeignKey('member.id'))
-    mem = db.relationship('Member')
-    Cash = db.Column(db.Boolean(), nullable = False, default = True)
-    Status = db.Column(db.String(), nullable = False)
-    Date = db.Column(db.Date(), nullable = False, default = date.today())
-    Bill = db.Column(db.Integer(), nullable = False, default = 0)
-    tflag = db.Column(db.Integer(), nullable = False, default = False)
-
-
-class Cart_Food(db.Model):
-    id = db.Column(db.Integer(), primary_key = True)
-    Cart = db.Column(db.String(), db.ForeignKey('cart.Order_No'))
-    cart_ref = db.relationship('Cart')
-    Food = db.Column(db.String(), db.ForeignKey('food.id'))
-    food_ref = db.relationship('Food')
-    Quantity = db.Column(db.Integer(), nullable = False, default = 0)
-    # Status = db.Column(db.Boolean, nullable = False, default = False)
-    Status = db.Column(db.String(), nullable = False)
-
-
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(), nullable = False)
-    password = db.Column(db.String(), nullable = False)
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer(), primary_key=True)
+    username = db.Column(db.String(length=30), nullable=False, unique=True)
+    password_hash = db.Column(db.String(length=60), nullable=False)
     role = db.Column(db.String(), nullable = False)
 
+    @property
+    def password(self):
+        return self.password
 
-# db.create_all()
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+
+    def check_password_correction(self, attempted_password):
+        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+
+
+class Person(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Person_ID = db.Column(db.String(), nullable = False, unique = True)
+    First_Name = db.Column(db.String(), nullable = False)
+    Middle_Name = db.Column(db.String())
+    Last_Name = db.Column(db.String(), nullable = False)
+    Cell_No = db.Column(db.String())
+    Email = db.Column(db.String())
+    Date_Of_Birth = db.Column(db.Date())
+    Gender = db.Column(db.String(), nullable = False)
+    Address = db.Column(db.Integer(), nullable = False)
+
+class Address(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Address_Line_1 = db.Column(db.String(), nullable = False)
+    Address_Line_2 = db.Column(db.String(), nullable = False)
+    City = db.Column(db.String(), nullable = False)
+    State = db.Column(db.String(), nullable = False)
+    Zip_Code = db.Column(db.String(), nullable = False)
+
+class Student(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    img = db.Column(db.LargeBinary)
+    Family_ID = db.Column(db.String(), nullable = False)
+    Student_ID = db.Column(db.String(), nullable = False)
+    Father = db.Column(db.String())
+    Mother = db.Column(db.String())
+
+class Teacher(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    img = db.Column(db.LargeBinary)
+    Teacher_ID = db.Column(db.String(), nullable = False)
+    Salary = db.Column(db.Integer(), nullable = False)
+    Joining_Date = db.Column(db.Date())
+
+class Course(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Course_ID = db.Column(db.String(), nullable = False, unique = True)
+    Name = db.Column(db.String(), nullable = False)
+    Grade = db.Column(db.String(), nullable = False)
+
+class Assignment(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Assignment_ID = db.Column(db.String(), nullable = False, unique = True)
+    Name = db.Column(db.String(), nullable = False, unique = True)
+    Course_ID = db.Column(db.String(), nullable = False)
+    Start_Date = db.Column(db.Date(), nullable = False)
+    End_Date = db.Column(db.Date(), nullable = False)
+    Total_Marks = db.Column(db.Integer(), nullable = False)
+
+class Student_Assignment(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Student = db.Column(db.String(), nullable = False)
+    Assignment = db.Column(db.String(), nullable = False)
+    Submitted_Date = db.Column(db.Date())
+    Obtained_Marks = db.Column(db.Integer(), default = 0)
+
+class Student_Progress(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Student = db.Column(db.String(), nullable = False)
+    Grade = db.Column(db.String(), nullable = False)
+    Score = db.Column(db.String(), default = '0')
+
+class Teacher_Course(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Teacher = db.Column(db.String(), nullable = False)
+    Course = db.Column(db.String(), nullable = False)
+    Active = db.Column(db.Boolean())
+    Strength = db.Column(db.Integer(), default = 0)
+
+class Student_Course(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Student = db.Column(db.String(), nullable = False)
+    Course = db.Column(db.String(), nullable = False)
+    Active = db.Column(db.Boolean())
+    Score = db.Column(db.String(), default = '0')
+
+
+class Student_Attendance(db.Model):
+    id = db.Column(db.Integer(), primary_key = True)
+    Student = db.Column(db.String(), nullable = False)
+    Course = db.Column(db.String(), nullable = False)
+    Attendance = db.Column(db.Boolean(), default = False)
+    Date_Added = db.Column(db.Date(), nullable = date.today())
+    Comments = db.Column(db.String())
+
+db.create_all()

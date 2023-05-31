@@ -4,4 +4,4 @@ from market import app
 @app.route('/')
 @app.route('/home')
 def home_page():
-    return render_template('base.html')
+    return render_template('admin/home.html')

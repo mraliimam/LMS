@@ -1,0 +1,60 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}
+    Student Data
+{% endblock %}
+
+{% block child %}
+<div class="container">
+    <div class = "tab-1">
+      <div class="row" style="padding: 1% 2%;">
+      <div class = "col-md-6"><h2>Student Information</h2></div>
+      <div class="col-md-6"><input class="form-control" id="myInput" type="text" placeholder="Search.."></div>
+    </div>
+    </div>
+    <div class="container">
+    <div class="table-responsive" style="height: 40rem;">
+      <table class = "table table-bordered table-hover table-info" style="text-align: center;">
+        <thead>
+            <tr style="position: sticky; top: 0; background-color: #bee5eb;">
+                {% for i in cols %}
+                    <th scope="col">{{ i }}</th>
+                {%endfor%}
+                <th scope="col">Actions</th>
+            </tr>    
+        </thead>
+        <tbody id = "tables">
+            {%for item in items%}
+                <tr>
+                    {% for att in cols %}
+                        <td>{{ item[att] }}</td>
+                    {%endfor%}
+                    <td>
+                        <form action="" method="post">
+                        <input name = 'studentFamily' type = 'hidden' value = "{{ item['Family_ID'] }}">
+                        <input name = 'studentID' type = 'hidden' value = "{{ item['Student_ID'] }}">
+                        <button name = "action" value = "Register" class="btn btn-info" type="submit">Register</button>
+                        <button name = "action" value = "View" class="btn btn-warning" type="submit">View</button>                    
+                        </form>
+                    </td>
+                </tr>
+            {%endfor%}            
+        </tbody>
+      </table>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block childScripts %}
+<script>
+$(document).ready(function(){
+    $("#myInput").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#tables tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+{% endblock %}
