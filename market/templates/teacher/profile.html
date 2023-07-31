@@ -1,0 +1,128 @@
+{% extends 'teacher/base.html' %}
+
+{% block title %}
+    Teacher Form
+{% endblock %}
+
+{% block child %}
+<div style="text-align: center; color: white;">
+    <h2><strong>PROFILE</strong></h2>
+  </div>  
+      <br>
+      <h5><strong>Teacher Details:</strong></h5>   
+      <br>
+      <div class="container">
+        <div class="row">            
+            <div class="col-md-4">
+                {{ form.tID.label() }}*
+                {{ form.tID(class = 'form-control', placeholder = 'Teacher ID') }}
+            </div>
+        </div>
+        
+        <div class="row">            
+            <div class="col-md-2" style="display: flex; justify-content: flex-end; flex-direction: column;">              
+                    <img 
+                    class="rounded"   
+                    style="width: 5cm; height: 5cm; vertical-align: bottom;"                  
+                    src="data:image/jpeg;base64,{{ image }}"
+                    alt="profile-img">                
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-9" style="vertical-align: middle;">
+              <div class="row">
+                <div class="col-md-3 clt" style="vertical-align: middle;">                
+                  {{ form.tFirstName.label()  }}*
+                  {{ form.tFirstName(class = 'form-control', placeholder = 'First Name')  }}
+              </div>
+              <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.tMiddleName.label()  }}*
+                    {{ form.tMiddleName(class = 'form-control', placeholder = 'Middle Name')  }}
+              </div>
+              <div class="col-md-3 clt" style="vertical-align: middle;">
+                {{ form.tLastName.label()  }}*
+                {{ form.tLastName(class = 'form-control', placeholder = 'Last Name')  }}            
+            </div>
+            <div class="col-md-2 clt" style="vertical-align: middle;">
+                {{ form.gender.label()  }}*
+                {{ form.gender(class = 'form-control', placeholder = 'Gender')  }}
+            </div>
+              </div>         
+              <div class="row">                
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.dob.label() }}*
+                    {{ form.dob(class = 'form-control', placeholder = 'Date of Birth')  }}
+                </div>
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.tEmail.label()  }}
+                    {{ form.tEmail(class = 'form-control', placeholder = 'Email Address')  }}
+                </div>
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.tCell_No.label()  }}
+                    {{ form.tCell_No(class = 'form-control', placeholder = '+1 (xxx) xxx-xx-xx')  }}                  
+                </div>                
+              </div>  
+            </div>    
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.salary.label()  }}*
+                    {{ form.salary(class = 'form-control', placeholder = 'Salary', id = 'password', type = 'password')  }}                  
+                </div>
+                <div class="col-1" style="padding-top: 90px;">
+                    <span toggle="#password" class="eye-icon">eye</span>
+                </div>
+                <div class="col-md-3 clt" style="vertical-align: middle;">
+                    {{ form.joining.label()  }}*
+                    {{ form.joining(class = 'form-control', placeholder = 'Joining Date')  }}                  
+                </div>
+              </div>                               
+        </div>         
+      </div>                     
+        <br>
+        <br>
+        <h5><strong>Address:</strong></h5> <br> 
+        <div class="container">
+        <div class="row">
+        <div class="col-md-5">
+            {{ form.addressLine1.label() }}
+            {{ form.addressLine1(class = 'form-control', placeholder = 'Address Line 2') }}            
+        </div>            <br>
+
+        <div class="col-md-5">
+            {{ form.addressLine2.label() }}
+            {{ form.addressLine2(class = 'form-control', placeholder = 'Address Line 2') }}
+        </div>
+        </div>
+        <br>
+        <div class="row">
+        <div class="col-md-3">
+            {{ form.city.label() }}
+            {{ form.city(class = 'form-control', placeholder = 'City') }}
+        </div>
+        <div class="col-md-3">
+            {{ form.state.label() }}
+            {{ form.state(class = 'form-control', placeholder = 'State') }}
+        </div>
+        <div class="col-md-3">
+            {{ form.zipCode.label() }}
+            {{ form.zipCode(class = 'form-control', placeholder = 'Zip Code') }}
+        </div>
+      </div>
+    </div>
+<br>
+<br>
+
+
+{% endblock %}
+
+{% block childScripts %}
+<script type='text/javascript'>
+    let eyeIcon = document.querySelector('.eye-icon');
+    let passwordField = document.querySelector('#password');
+    eyeIcon.addEventListener('click', function () {
+    let type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
+    this.classList.toggle('fa-eye-slash');
+    });
+  </script>
+{%endblock%}

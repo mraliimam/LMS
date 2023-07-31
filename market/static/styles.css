@@ -214,11 +214,7 @@
     background-color: #2396d9;
 }
 
-.eye-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
+.eye-icon {    
     cursor: pointer;
     width: 24px;
     height: 24px;

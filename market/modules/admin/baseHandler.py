@@ -2,6 +2,16 @@ from market import db, models, forms
 import base64
 
 
+def con(item):
+    item = item[1:-1]
+    item = item.replace("'", '')
+    item = item.replace(" ", '')
+    item = item.split(',')
+    item = list(item)
+
+    return item
+
+
 #============================================ Register Student=========================================
 
 def createFamilyID(form):
@@ -74,7 +84,8 @@ def renderStudent(form,famID,stdID):
 
         if stdID:
             stdPerson = models.Person.query.filter_by(Person_ID = std.Student_ID).first()
-            form.sID.data = std.Student_ID            
+            form.sID.data = std.Student_ID  
+            form.sID.render_kw = {'readonly':True}          
             form.sFirstName.data = stdPerson.First_Name
             form.sFirstName.render_kw = {'readonly':True}
             form.sMiddleName.data = stdPerson.Middle_Name
@@ -83,10 +94,12 @@ def renderStudent(form,famID,stdID):
             form.sLastName.render_kw = {'readonly':True}
             form.gender.data = stdPerson.Gender
             form.gender.data = {'readonly':True}
-            # form.dob.data = stdPerson.Date_Of_Birth
-            # form.dob.data = {'readonly':True}
+            form.dob.data = stdPerson.Date_Of_Birth
+            form.dob.render_kw = {'readonly':True}
             form.sEmail.data = stdPerson.Email
             form.sEmail.render_kw = {'readonly':True}
+            form.sCell_No.data = stdPerson.Cell_No
+            form.sCell_No.render_kw = {'readonly':True}
             form.familyID.render_kw = {'readonly':True}
             form.fatherFirstName.render_kw = {'readonly':True}
             form.fatherMiddleName.render_kw = {'readonly':True}
@@ -111,6 +124,11 @@ def renderStudent(form,famID,stdID):
             image = std.img
 
             encoded_image = base64.b64encode(image).decode('utf-8')
+            encoded_image = base64.b64encode(image).decode('utf-8')
+
+            # image = models.Student.query.filter_by(Student_ID = 'std10001').first().img            
+            
+            encoded_image = base64.b64encode(image).decode('utf-8')       
 
             # image = models.Student.query.filter_by(Student_ID = 'std10001').first().img            
             
@@ -146,13 +164,7 @@ def createStudent(form, file):
         #     # flash('An Error Occured while saving Address data', category = 'danger')
         #     return message
 
-        ad1 = models.Address.query.filter_by(
-            Address_Line_1 = form.addressLine1.data,
-            Address_Line_2 = form.addressLine2.data,
-            City = form.city.data,
-            State = form.state.data,
-            Zip_Code = form.zipCode.data
-        ).first()
+        ad1 = getAddress(form)
 
         # ================== Creating Person as Father =====================
         fPerson = models.Person(
@@ -271,7 +283,7 @@ def getStudent():
 
 def validateCourseAndStudent(course,grade):
 
-    crse = models.Course.query.filter_by(Name = course, Grade = grade).first()
+    crse = models.Course.query.filter_by(Course_ID = course, Grade = grade).first()
 
     if not crse:
         return False
@@ -288,7 +300,7 @@ def validateCourseAndStudent(course,grade):
         li = [items,cols]
         return li
 
-
+#==================== Rough Function
 def checkStudent():
 
     items = db.engine.execute(f'''select st.Student_ID,
@@ -316,6 +328,11 @@ def doAttendance(request, course, grade):
             roll_no = key.split('comments[')[1][:-1]
             comments[roll_no] = value[0]
             pass
+            pass
+    # print(attendance, comments)
+
+    # print(attendance.keys())
+            pass    
     # print(attendance, comments)
 
     # print(attendance.keys())
@@ -347,12 +364,128 @@ def doAttendance(request, course, grade):
                                 Comments = comments[std]
                             )
             db.session.add(studentCourse)
-    
-   
-
     try:
         db.session.commit()
         return True
     except:        
         db.session.rollback()
         return False
+
+
+#============================================ Register Teacher=========================================
+
+def createTeacherID(form):
+    
+    form.tID.data = forms.TeacherForm().teacherID()
+    form.tID.render_kw = {'readonly':True}
+
+    return form
+
+def renderTeacher(form,tID):
+
+    person = models.Person.query.filter_by(Person_ID = tID).first()
+    teacher = models.Teacher.query.filter_by(Teacher_ID = tID).first()
+    address = models.Address.query.filter_by(id = person.Address).first()
+
+    if teacher:
+        form.tID.data = teacher.Teacher_ID
+        form.tFirstName.data = person.First_Name
+        form.tFirstName.render_kw = {'readonly':True}
+        form.tMiddleName.data = person.Middle_Name
+        form.tMiddleName.render_kw = {'readonly':True}
+        form.tLastName.data = person.Last_Name
+        form.tLastName.render_kw = {'readonly':True}
+        form.gender.data = person.Gender
+        form.gender.data = {'readonly':True}
+        form.dob.data = person.Date_Of_Birth
+        form.dob.render_kw = {'readonly':True}
+        form.tEmail.data = person.Email
+        form.tEmail.render_kw = {'readonly':True}
+        form.tCell_No.data = person.Cell_No
+        form.tCell_No.render_kw = {'readonly':True}
+        form.salary.data = teacher.Salary
+        form.salary.render_kw = {'readonly':True}
+        form.joining.data = teacher.Joining_Date
+        form.joining.render_kw = {'readonly':True}
+    
+
+        form.addressLine1.data = address.Address_Line_1
+        form.addressLine2.data = address.Address_Line_2
+        form.city.data = address.City
+        form.state.data = address.State
+        form.zipCode.data = address.Zip_Code
+
+        form.addressLine1.render_kw = {'readonly':True}
+        form.addressLine2.render_kw = {'readonly':True}
+        form.city.render_kw = {'readonly':True}
+        form.state.render_kw = {'readonly':True}
+        form.zipCode.render_kw = {'readonly':True}
+
+        image = teacher.img
+
+        encoded_image = base64.b64encode(image).decode('utf-8')       
+        
+        return form, encoded_image
+    
+    else:
+        return form,None
+
+
+def createTeacher(form, file):
+
+    ad1 = getAddress(form)
+
+    if not ad1:
+        address = models.Address(
+            Address_Line_1 = form.addressLine1.data,
+            Address_Line_2 = form.addressLine2.data,
+            City = form.city.data,
+            State = form.state.data,
+            Zip_Code = form.zipCode.data
+        )
+
+        db.session.add(address)
+        db.session.commit()
+
+        ad1 = getAddress(form)
+
+    tPerson = models.Person(
+        Person_ID = form.tID.data,
+        First_Name = form.tFirstName.data,
+        Middle_Name = form.tMiddleName.data,            
+        Last_Name = form.tLastName.data,
+        Cell_No = form.tCell_No.data,
+        Email = form.tEmail.data,
+        Date_Of_Birth = form.dob.data,
+        Gender = form.gender.data,
+        Address = ad1.id
+    )
+    db.session.add(tPerson)
+
+    teacher = models.Teacher(
+        img = file.read(),
+        Teacher_ID = form.tID.data,
+        Salary = form.salary.data,
+        Joining_Date = form.joining.data
+    )
+    db.session.add(teacher)
+
+    try:
+        db.session.commit()
+        return 'Teacher is Registered Successfully!!'
+    except:
+        db.session.rollback()
+        return 'An Error Occured while Teacher Registration!!'
+
+
+def getAddress(form):
+
+    ad1 = models.Address.query.filter_by(
+            Address_Line_1 = form.addressLine1.data,
+            Address_Line_2 = form.addressLine2.data,
+            City = form.city.data,
+            State = form.state.data,
+            Zip_Code = form.zipCode.data
+        ).first()
+
+    return ad1

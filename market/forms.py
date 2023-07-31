@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, PasswordField, IntegerField, SelectField, EmailField, DateField, FileField
 from wtforms.validators import DataRequired, Length, ValidationError, Email, Regexp
 from flask_wtf.file import FileAllowed, FileSize
-from market.models import Student, Course
+from market import models
 from market import db
 from flask import flash
 
@@ -46,9 +46,9 @@ from flask import flash
 
 
 class StudentForm(FlaskForm):
-
+    
     def stID(self):
-        for i in Student.query.all():
+        for i in models.Student.query.all():
             pass
         
         try:
@@ -63,7 +63,7 @@ class StudentForm(FlaskForm):
             return m
     
     def famID(self):
-        for i in Student.query.all():
+        for i in models.Student.query.all():
             pass
         
         try:
@@ -78,7 +78,7 @@ class StudentForm(FlaskForm):
             return m
 
     def fatherID(self):
-        for i in Student.query.all():
+        for i in models.Student.query.all():
             pass
 
         try:
@@ -93,7 +93,7 @@ class StudentForm(FlaskForm):
             return m
 
     def motherID(self):
-        for i in Student.query.all():
+        for i in models.Student.query.all():
             pass
 
         try:
@@ -148,6 +148,43 @@ class StudentForm(FlaskForm):
 
     submit = SubmitField(label = 'Submit')
 
+class TeacherForm(FlaskForm):
+
+    def teacherID(self):
+        for i in models.Teacher.query.all():
+            pass
+        
+        try:
+            m = i.Teacher_ID
+            m = m[2:]
+            m = int(m)
+            m += 1
+            m = 'tr'+str(m)
+            return m
+        except:
+            m = 'tr10001'
+            return m
+    
+    tID = StringField(label = 'Teacher ID', validators=[DataRequired()])
+    tFirstName = StringField(label = 'First Name', validators=[DataRequired()])
+    tMiddleName = StringField(label = 'Middle Name', validators=[DataRequired()])
+    tLastName = StringField(label = 'Last Name', validators=[DataRequired()])
+    tCell_No = StringField(label = 'Phone No', validators=[Regexp(r'^\([2-9]{1}[0-9]{2}\)\ [2-9]{1}[0-9]{2}-[0-9]{4}$', message="Invalid phone number format")])
+    tEmail = EmailField(label = 'Email', validators=[Email(message='Invalid Email type')])
+    dob = DateField(label = 'Date of Birth', validators=[DataRequired()])
+    gender = SelectField(label = 'Gender', choices=['Male','Female'], validators=[DataRequired()])
+    salary = IntegerField(label = 'Salary', validators=[DataRequired()])
+    joining = DateField(label = 'Joining Date', validators=[DataRequired()])
+
+    #   Address Part
+    addressLine1 = StringField(label='Address Line 1')
+    addressLine2 = StringField(label='Address Line 2')
+    city = StringField(label='City')
+    state = StringField(label='State')
+    zipCode = StringField(label='Zip Code')
+
+    submit = SubmitField(label = 'Submit')
+
 class LoginForm(FlaskForm):
     username = StringField(label = 'UserName', validators=[DataRequired()])
     password = PasswordField(label = 'Password',validators=[DataRequired()])
@@ -155,6 +192,6 @@ class LoginForm(FlaskForm):
 
 
 class AttendaceForm(FlaskForm):
-    course = SelectField(label = 'Subject', validators=[DataRequired()], choices=[i.Name for i in Course.query.all()])
-    grade = SelectField(label = 'Grade', validators=[DataRequired()], choices=[i.Grade for i in Course.query.all()])
+    course = SelectField(label = 'Subject', validators=[DataRequired()], choices=[i.Course_ID for i in models.Course.query.all()])
+    grade = SelectField(label = 'Grade', validators=[DataRequired()], choices=[i.Grade for i in models.Course.query.all()])
     submit = SubmitField(label = 'Submit')

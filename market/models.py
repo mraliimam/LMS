@@ -2,10 +2,22 @@ from market import db
 from market import bcrypt, login_manager
 from flask_login import UserMixin
 from datetime import datetime, date
+from functools import wraps
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+def roles_required(*roles):
+    def wrapper(f):
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            if current_user.role not in roles:
+                flash("You are not authorized to access this page.", category = "danger")
+                return redirect(url_for("home_page"))
+            return f(*args, **kwargs)
+        return wrapped
+    return wrapper
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
@@ -48,6 +60,7 @@ class Address(db.Model):
 class Student(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     img = db.Column(db.LargeBinary)
+    # Batch_ID = db.Column(db.String(), nullable = False)
     Family_ID = db.Column(db.String(), nullable = False)
     Student_ID = db.Column(db.String(), nullable = False)
     Father = db.Column(db.String())

@@ -39,22 +39,24 @@
     <div class="table-responsive" style="height: 40rem;">
         <table class="table table-striped table-bordered table-primary table-responsive">
             <thead class="thead-dark">
-                <th>SR#</th>
+                <!-- <th>SR#</th> -->
                 <th>Student ID</th>
                 <th>Student Name</th>
                 <th>Absent</th>
                 <th>Present</th>
+                <th>Excuse</th>
                 <th>Comments</th>
             </thead>
             <tbody>
                 {% set i = 1 %}
                 {% for item in items %}
                 <tr>
-                    <th id = "{{i}}" style="text-align: center;">{{ i }}</th>
-                    <td id = "{{item['Student_ID']}}">{{ item['Student_ID'] }}</td>                    
-                    <td id = "{{item['Student_Name']}}">{{ item['Student_Name'] }}</td>                    
+                    <!-- <th id = "{{i}}" style="text-align: center;">{{ i }}</th> -->
+                    <td id = "{{item['Student_ID']}}">{{ item['Student_ID'] }}</td>
+                    <td id = "{{item['Student_Name']}}">{{ item['Student_Name'] }}</td>
                     <td style="text-align: center;"><input class="form-check-input" type="radio" name="attendance[{{item['Student_ID']}}]" value = "absent"></td>
                     <td style="text-align: center;"><input class="form-check-input" type="radio" name="attendance[{{item['Student_ID']}}]" value = "present" checked></td>
+                    <td style="text-align: center;"><input class="form-check-input" type="radio" name="attendance[{{item['Student_ID']}}]" value = "excuse"></td>
                     <td id = "{{item['Student_ID']}}"><input class = "form-control" type="text" name="comments[{{item['Student_ID']}}]"></td>
                 </tr>
                 {% set i = i + 1 %}

@@ -1,0 +1,46 @@
+{% extends 'teacher/base.html' %}
+
+{% block title %}
+    Courses
+{% endblock %}
+
+{% block child %}
+<div style="text-align: center; color: white;">
+    <h2><strong>COURSES</strong></h2>
+  </div>  
+      <br>
+      <div class="container">
+        <div style="padding: 1rem; display: flex; justify-content: center; text-align: center;">
+            <table class="table table-primary table-bordered table-striped" >
+              <thead>
+                {% for col in cols %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+                <th style="width: 40%;">Actions</th>
+              </thead>
+              <tbody>
+                {% for item in items %}
+                    <tr>
+                        {% for col in cols %}
+                            <td>{{ item[col] }}</td>
+                        {%endfor%}                        
+                        <td>
+                            <form action="" method="post">
+                                <input type="hidden" name="record" value="{{item}}">
+                                <button class="btn btn-primary" type="submit" name = 'act' value="attendance">Attendance</button>
+                                <button class="btn btn-success" type="submit" name = 'act' value="progress">Progress</button>
+                                <button class="btn btn-warning" type="submit" name = 'act' value="assignment">Add Assignment</button>                            
+                            </form>
+                        </td>
+                    </tr>
+                {%endfor%}                
+              </tbody>
+            </table>
+          </div>  
+      </div>                             
+
+{% endblock %}
+
+{% block childScripts %}
+
+{%endblock%}
