@@ -1,0 +1,158 @@
+{% extends 'teacher/base.html' %}
+
+    {% block title %}
+        Assignment Page
+    {% endblock %}
+
+{% block child %}
+
+
+<div>
+<div class = "tab-1 container">
+  <div class="row" style="padding: 1% 0.1%;">
+
+      <form action="" method="Post" enctype="multipart/form-data">
+          <input type="hidden" name="form_type" value="show" >
+      <h5><strong>Assignment Details:</strong></h5>
+      <br>
+      <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.A_ID.label() }}*
+                {{ form.A_ID(class = 'form-control', placeholder = 'Assignment ID') }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Name.label() }}*
+                {{ form.Name(class = 'form-control', placeholder = 'Title') }}
+            </div>
+            <div class="col-md-4">
+                {{ form.Course_ID.label() }}*
+                {{ form.Course_ID(class = 'form-control', placeholder = 'Course') }}
+            </div>
+        </div>
+          <div class="row">
+            <div class="col-md-4">
+
+                    <h6>Upload File*</h6>
+                    <input type="file" required name="file" id="file" class="form-control">
+
+            </div>
+            <div class="col-md-4">
+                {{ form.End_Date.label() }}*
+                {{ form.End_Date(class = 'form-control', placeholder = 'End_Date') }}
+            </div>
+              <div class="col-md-4">
+                {{ form.Total_Marks.label() }}*
+                {{ form.Total_Marks(class = 'form-control', placeholder = 'Total_Marks') }}
+            </div>
+        </div>
+          <br><br>
+            {{ form.submit(class = 'btn btn-success', placeholder = 'Submit') }}
+      </div>
+
+
+          </form>
+<br>
+
+</div>
+
+<div>
+    <div class="container">
+    <div class = "tab-1 container">
+  <div class="row" style="padding: 1% 0.1%;">
+
+    <h2 class = "col-md-4">Assignments</h2>
+
+  <input class="form-control col" id="myInput" type="text" placeholder="Search..">
+      <div class="form-group col-md-3">
+
+    <select class="form-control" id="exampleFormControlSelect1" >
+        <option disabled selected>Search By</option>
+      <option>Name</option>
+      <option>Course</option>
+
+    </select>
+  </div>
+</div>
+
+</div>
+    <div class="container">
+    <div class="table-responsive" style="height: 40rem;">
+      <table class = "table table-bordered table-hover table-info" style="text-align: center;">
+        <thead>
+            <tr style="position: sticky; top: 0; background-color: #bee5eb;">
+                {% for i in cols %}
+                    <th scope="col">{{ i }}</th>
+                {%endfor%}
+                <th scope="col">Actions</th>
+
+            </tr>
+        </thead>
+        <tbody id = "tables">
+            {%for item in items%}
+                <tr>
+                    <td id = "{{item['Assignment_ID']}}" >{{ item['Assignment_ID'] }}</td>
+                    <td id = "{{item['Course_ID']}}">{{ item['Course_ID'] }}</td>
+                    <td id = "{{item['Name']}}">{{ item['Name'] }}</td>
+
+
+<form action="{{ url_for('teacher.assignment_page') }}" method="Post">
+                    <input type="hidden" name="form_type" value="update" >
+                    <input type="hidden" name="id" value="{{item.Assignment_ID}}">
+                   <td><input name="End_Date" type="date"  class="form-control editit"  value="{{item.Deadline}}" readonly> </td>
+                       <td> <input type="submit"  class="btn btn-warning " style="display:none; " id="updatebutton_{{item.Assignment_ID}}" value="Update Deadline">
+                        <a class="btn btn-warning  editbutton"  onclick="enableFields(this)">Edit Deadline</a>
+
+                        <a href="{{ url_for('teacher.download_assignment', Assignment_ID=item.Assignment_ID) }}" download="" class="btn btn-primary">Download</a>
+                    </td>
+                    </form>
+                </tr>
+            {%endfor%}
+        </tbody>
+      </table>
+    </div>
+    </div>
+</div>
+</div>
+
+</div>
+
+
+</div>
+<script>
+$(document).ready(function(){
+    var num = 0;
+
+    $("#exampleFormControlSelect1").on("change", function() {
+        var selectedOption = $(this).val();
+        if (selectedOption == "Name"){
+            num = 2;
+        }
+        else if (selectedOption == "Course"){
+            num = 1;
+        }
+    });
+
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tables tr").filter(function() {
+            var text = $(this).find('td:eq(' + num + ')').text().toLowerCase();
+            $(this).toggle(text.indexOf(value) > -1);
+        });
+    });
+});
+
+function enableFields(button) {
+    var row = button.parentNode.parentNode;
+    var editButton = row.querySelector('[id^="updatebutton_"]');
+    var fields = row.getElementsByClassName('editit');
+
+    for (var i = 0; i < fields.length; i++) {
+        fields[i].readOnly = false;
+    }
+
+    button.style.display = 'none';
+    editButton.style.display = 'inline';
+}
+</script>
+{% endblock %}

@@ -7,9 +7,27 @@
 {% block child %}
 <div style="text-align: center; color: white;">
     <h2><strong>COURSES</strong></h2>
-  </div>  
+  </div>
+
+
       <br>
       <div class="container">
+          <div class="row" style="padding: 1% 0.1%;">
+
+    <h2 class = "col">Courses</h2>
+
+  <input class="form-control col" id="myInput" type="text" placeholder="Search..">
+    <div class="form-group col">
+
+    <select class="form-control" id="exampleFormControlSelect1" >
+        <option disabled selected>Search By</option>
+      <option>Grade</option>
+      <option>Course</option>
+
+    </select>
+  </div>
+
+</div>
         <div style="padding: 1rem; display: flex; justify-content: center; text-align: center;">
             <table class="table table-primary table-bordered table-striped" >
               <thead>
@@ -18,7 +36,7 @@
                 {% endfor %}
                 <th style="width: 40%;">Actions</th>
               </thead>
-              <tbody>
+              <tbody id ="tables">
                 {% for item in items %}
                     <tr>
                         {% for col in cols %}
@@ -42,5 +60,29 @@
 {% endblock %}
 
 {% block childScripts %}
+<script>
+$(document).ready(function(){
+    var num = 0;
 
+    $("#exampleFormControlSelect1").on("change", function() {
+        var selectedOption = $(this).val();
+        if (selectedOption == "Grade"){
+            num = 2;
+        }
+        else if (selectedOption == "Course"){
+            num = 1;
+        }
+    });
+
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tables tr").filter(function() {
+            var text = $(this).find('td:eq(' + num + ')').text().toLowerCase();
+            $(this).toggle(text.indexOf(value) > -1);
+        });
+    });
+});
+
+
+</script>
 {%endblock%}

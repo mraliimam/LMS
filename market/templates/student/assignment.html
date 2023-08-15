@@ -1,0 +1,125 @@
+{% extends 'student/base.html' %}
+
+    {% block title %}
+        Assignment Page
+    {% endblock %}
+
+{% block child %}
+<h2 style="text-align: center;  ">Assignments</h2>
+
+<div>
+<div class = "tab-1 container">
+  <div class="row" style="padding: 1% 0.1%;">
+
+    <h2 class = "col">Assignments</h2>
+
+  <input class="form-control col" id="myInput" type="text" placeholder="Search..">
+    <div class="form-group col">
+
+    <select class="form-control" id="exampleFormControlSelect1" >
+        <option disabled selected>Search By</option>
+      <option>Name</option>
+      <option>Course</option>
+
+    </select>
+  </div>
+
+</div>
+
+    <div class="container">
+<div class="table-responsive">
+  <table class = "table mb-0 table-centered table-nowrap" style="text-align: center; ">
+    <thead>
+        <tr>
+
+          {% for i in cols %}
+
+            {% if i != 'id' %}
+            <th scope="col">{{i}}</th>
+            {% endif %}
+
+            {%endfor%}
+
+            <th scope = "col" colspan="15">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody id = tables >
+
+
+                {% for item in items %}
+                <tr>
+                    <!-- <th id = "{{i}}" style="text-align: center;">{{ i }}</th> -->
+                    <td id = "{{item['Assignment_ID']}}">{{ item['Assignment_ID'] }}</td>
+                    <td id = "{{item['Course']}}">{{ item['Course'] }}</td>
+                    <td id = "{{item['Name']}}">{{ item['Name'] }}</td>
+                    <td id = "{{item['Deadline']}}">{{ item['Deadline'] }}</td>
+                    <td><form action="" method="post">
+
+                               <td>
+                {% if item['Deadline'] >= current_date.strftime('%Y-%m-%d') %}
+                    <!-- Show "Download Assignment" button -->
+                                   <form action="" method="Post">
+
+                                   <div class="row">
+                                       <div class="col">
+                    <a href="{{ url_for('teacher.download_assignment', Assignment_ID=item.Assignment_ID) }}" class="btn btn-primary">Download Assignment</a>
+                                  </div>
+                                      <div class="col">
+
+                                    <input type="file" required name="file" id="file" class="form-control">
+                                          </div>
+                                       <div class="col">
+                                          {{ form.submit(class = 'btn btn-success', placeholder = 'Submit') }}
+                                 </div>
+
+                                       </div>
+                                   </form>
+                 {% else %}
+                    <!-- Show "Expired" button -->
+                    <a href="#" class="btn btn-danger">Expired</a>
+                {% endif %}
+            </td>
+                            </form></td>
+
+
+                </tr>
+
+                {%endfor%}
+    </tbody>
+
+  </table>
+</div>
+
+    </div>
+
+</div>
+
+<script>
+$(document).ready(function(){
+    var num = 0;
+
+    $("#exampleFormControlSelect1").on("change", function() {
+        var selectedOption = $(this).val();
+        if (selectedOption == "Name"){
+            num = 2;
+        }
+        else if (selectedOption == "Course"){
+            num = 1;
+        }
+    });
+
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tables tr").filter(function() {
+            var text = $(this).find('td:eq(' + num + ')').text().toLowerCase();
+            $(this).toggle(text.indexOf(value) > -1);
+        });
+    });
+});
+
+
+</script>
+</div>
+
+{% endblock %}

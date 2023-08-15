@@ -195,3 +195,35 @@ class AttendaceForm(FlaskForm):
     course = SelectField(label = 'Subject', validators=[DataRequired()], choices=[i.Course_ID for i in models.Course.query.all()])
     grade = SelectField(label = 'Grade', validators=[DataRequired()], choices=[i.Grade for i in models.Course.query.all()])
     submit = SubmitField(label = 'Submit')
+
+
+class AssignmentForm(FlaskForm):
+    def assignmentID(self):
+        for i in models.Assignment.query.all():
+            pass
+
+        try:
+            m = i.Assignment_ID
+            m = m[3:]
+            m = int(m)
+            m += 1
+            m = 'ass' + str(m)
+            return m
+        except:
+            m = 'ass10001'
+            return m
+    A_ID=StringField(label = 'Assignment ID', validators=[DataRequired()])
+    Name=StringField(label = 'Assignment title', validators=[DataRequired()])
+    Course_ID=SelectField(label = 'Course title', validators=[DataRequired()],choices=[i.Course for i in models.Teacher_Course.query.all()])
+
+    Start_Date = DateField(label = 'Uploaded Date', validators=[DataRequired()])
+    End_Date = DateField(label = 'Deadline Date', validators=[DataRequired()])
+    Total_Marks =  IntegerField(label = 'Total Marks', validators=[DataRequired()])
+    submit = SubmitField(label='Submit')
+
+class Student_AssignmentForm(FlaskForm):
+
+    Submitted_Date=DateField(label = 'Submitted Date', validators=[DataRequired()])
+    Student=StringField(label = 'Name ', validators=[DataRequired()])
+    Obtained_Marks=IntegerField(label = 'Obtained Marks', validators=[DataRequired()])
+    submit=SubmitField(label='Submit')

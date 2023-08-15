@@ -1,6 +1,7 @@
 from market import db, models, forms
 import base64
-
+from market.models import User
+from flask_login import login_user
 
 def con(item):
     item = item[1:-1]
@@ -217,7 +218,7 @@ def createStudent(form, file):
     else:
         fatherID = std.Father
         motherID = std.Mother
-        addressID = std.Address
+        addressID = "None"
 
     # ================== Creating Person as Student =====================
 
@@ -274,7 +275,7 @@ def getStudent():
 
     cols = list(items.keys())
     items = list(items)
-
+    print(items)
     return items, cols
 
 #=======================================================================================================================
@@ -489,3 +490,66 @@ def getAddress(form):
         ).first()
 
     return ad1
+
+
+
+
+def auth(form):
+
+    user = User.query.filter_by(username = form.username.data).first()
+
+    # if user and user.password == form.password.data:
+    #     login_user(user)
+    #     return 'Pass'
+    # else:
+    #     return 'Fail'
+
+    if user and user.check_password_correction(attempted_password = form.password.data):
+        if user.role=="admin":
+            login_user(user)
+            return 'admin'
+        elif user.role=="teacher":
+            login_user(user)
+            return 'teacher'
+        elif user.role=="student":
+            login_user(user)
+            return 'student'
+        else:
+            return 'Fail'
+    else:
+        return 'Fail'
+
+
+def getTeacherCourses():
+    items = db.engine.execute(f'''select t.Teacher_ID,
+                            p1.First_Name || " " || p1.Middle_Name || " " || p1.Last_Name as Name, c.Name as Course , tc.Active,tc.Strength
+                            from Person p1 join Teacher t on p1.Person_ID = t.Teacher_ID join Teacher__Course
+                             tc on tc.Teacher = t.Teacher_ID join Course c on c.Course_ID = tc.Course;''')
+
+    cols = list(items.keys())
+    items = list(items)
+
+    return items, cols
+
+
+def getStudentCourses():
+
+
+    items = db.engine.execute(f'''select st.Student_ID,
+                            p1.First_Name || " " || p1.Middle_Name || " " || p1.Last_Name as Name, c.Name as Course , sc.Active
+                            from Person p1 join Student st on p1.Person_ID = st.Student_ID join Student__Course
+                             sc on sc.Student = st.Student_ID join Course c on c.Course_ID = sc.Course;''')
+
+    cols = list(items.keys())
+    items = list(items)
+    print(items)
+
+
+
+    return items, cols
+
+
+
+
+
+

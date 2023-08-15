@@ -1,10 +1,13 @@
-from flask import render_template,request, redirect, url_for, flash
+from flask import render_template,request, redirect, url_for, flash,send_file
 from market.modules.teacher import teacher
 from market import forms, models
 from market.modules import admin
 from market.modules.teacher import baseHandler
+from market.forms import AssignmentForm
 from flask_login import login_user, logout_user, current_user, login_required
-from market.models import roles_required
+from market.models import Assignment
+from market import db
+from io import BytesIO
 
 @teacher.route('/')
 @teacher.route('/home')
@@ -54,16 +57,65 @@ def courses_page():
 
 #     return render_template('teacher.progress.html')
 
-@teacher.route('/assignment')
-def assignment_page():
 
+@teacher.route('/download_assignment/<string:Assignment_ID>', methods=['GET'])
+def download_assignment(Assignment_ID):
+    file_response  = baseHandler.get_assignment_file(Assignment_ID)
+    if file_response:
+        return file_response
+    else:
+
+        flash('Assignment or file not found', category='danger')
+        return redirect(url_for('teacher.assignment_page'))
+
+
+
+@teacher.route('/assignment', methods = ['GET', 'POST'])
+def assignment_page():
+    form = AssignmentForm()
     if request.method == 'GET':
 
-        pass
 
-    elif request.method == 'POST':
+        form = baseHandler.createAssignmentID(form)
+        items, cols = baseHandler.getAssignment()
+        
 
-        pass
+
+
+        return render_template('teacher/assignment.html', form=form, image = None,items=items,cols=cols)
+
+    if request.method == 'POST':
+        form_type=request.form.get('form_type')
+
+        if form_type == 'show':
+            if form:
+                file = request.files['file']
+                message = baseHandler.CreateAssignment(form,file)
+                category = 'danger' if 'Error' in message else 'success'
+                flash(message, category = category)
+                return redirect(url_for('teacher.assignment_page'))
+
+            else:
+                flash('Enter valid details in form', category='danger')
+                return redirect(url_for('teacher.assignment_page'))
+
+        if form_type == 'update':
+
+            End_Date = request.form['End_Date']
+            Assignment_ID = request.form['id']
+
+            date_to_update = Assignment.query.get_or_404(Assignment_ID)
+
+            date_to_update.End_Date = End_Date
+            try:
+                db.session.commit()
+
+                flash(f"Date of  {Assignment_ID} Updated!", category='success')
+            except:
+                flash(f"Date of {Assignment_ID} not Updated!", category='danger')
+
+        return redirect(url_for('teacher.assignment_page'))
+
 
 @teacher.route('/attendance', methods = ['GET', 'POST'])
 def attendance_page():
@@ -104,4 +156,10 @@ def attendance_page():
                 return redirect(url_for('teacher.attendance_page', course = course, grade = grade))
             else:
                 flash('Attendance Saved Successfully!!', category='success')
-                return redirect(url_for('teacher.attendance_page', course = course, grade = grade))        
+                return redirect(url_for('teacher.attendance_page', course = course, grade = grade))
+
+@teacher.route('/update_assignment/<string:id>',methods=['GET','POST'])
+def update_assignment(id):
+
+    pass
+

@@ -7,6 +7,7 @@ from market.models import roles_required
 
 @admin.route('/')
 @admin.route('/home')
+
 def home_page():
     form = StudentForm()
     return render_template('admin/home.html', form = form)
@@ -145,10 +146,18 @@ def course_page():
 
     if request.method == 'GET':
 
-        pass
+        return render_template('admin/courses.html')
 
-    elif request.method == 'POST':
 
-        pass
+    if request.method == 'POST':
 
-    pass
+        act = request.form.get(key='act')
+        if act == 'teacher':
+
+            items, cols = baseHandler.getTeacherCourses()
+            return render_template('admin/ad_teacher_courses.html',items=items,cols=cols)
+
+        elif act =='student':
+
+            items,cols=baseHandler.getStudentCourses()
+            return render_template('admin/ad_st_courses.html',items=items,cols=cols)

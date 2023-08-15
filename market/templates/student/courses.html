@@ -1,0 +1,62 @@
+{% extends 'student/base.html' %}
+
+    {% block title %}
+        Courses Page
+    {% endblock %}
+
+{% block child %}
+<div style="text-align: center; color: white;">
+    <h2><strong>COURSES</strong></h2>
+  </div>
+      <br>
+      <div class="container">
+          <div class="row" style="padding: 1% 0.1%;">
+
+    <h2 class = "col">Courses</h2>
+
+  <input class="form-control col" id="myInput" type="text" placeholder="Search..">
+
+
+</div>
+        <div style="padding: 1rem; display: flex; justify-content: center; text-align: center;">
+            <table class="table table-primary table-bordered table-striped" >
+              <thead>
+                {% for col in cols %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+                <th style="width: 40%;">Actions</th>
+              </thead>
+              <tbody id ="tables">
+                {% for item in items %}
+                    <tr>
+                        {% for col in cols %}
+                            <td>{{ item[col] }}</td>
+                        {%endfor%}
+                        <td>
+                            <form action="" method="post">
+                                <input type="hidden" name="record" value="{{item}}">
+                                <button class="btn btn-warning" type="submit" name = 'act' value="assignment">Assignment</button>
+                            </form>
+                        </td>
+                    </tr>
+                {%endfor%}
+              </tbody>
+            </table>
+          </div>
+      </div>
+
+<script>
+$(document).ready(function(){
+
+    $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#tables tr").filter(function() {
+            var text = $(this).find('td:eq(1)').text().toLowerCase();
+            $(this).toggle(text.indexOf(value) > -1);
+        });
+    });
+});
+
+
+</script>
+    {% endblock %}

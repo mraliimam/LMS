@@ -87,11 +87,12 @@ class Assignment(db.Model):
     Start_Date = db.Column(db.Date(), nullable = False)
     End_Date = db.Column(db.Date(), nullable = False)
     Total_Marks = db.Column(db.Integer(), nullable = False)
+    file = db.Column(db.LargeBinary)
 
 class Student_Assignment(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
     Student = db.Column(db.String(), nullable = False)
-    Assignment = db.Column(db.String(), nullable = False)
+    Assignment = db.Column(db.LargeBinary(), nullable = False)
     Submitted_Date = db.Column(db.Date())
     Obtained_Marks = db.Column(db.Integer(), default = 0)
 
